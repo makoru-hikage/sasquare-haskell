@@ -1,5 +1,22 @@
-import Data.Ratio
-import Data.Ix
+module Parts(
+    Row,
+    Column,
+    Cell,
+    Part,
+    getRow,
+    getColumn,
+    cellIndex,
+    cellIndices,
+    rowIndex,
+    columnIndex,
+    findCellByIndices,
+    intersectRowColumn,
+    rowCells,
+    columnCells
+) where
+
+import Data.Ratio ( (%) )
+import Data.Ix ()
 
 -- A square always has a base
 -- The base is the root of a perfect square
