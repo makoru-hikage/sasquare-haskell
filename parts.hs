@@ -13,7 +13,7 @@ data Row = Row Base Index deriving (Ord, Eq, Show)
 data Column = Column Base Index deriving (Ord, Eq, Show)
 data Cell = Cell Base Index deriving (Ord, Eq, Show)
 
-class Part a where 
+class Part a where
     getBase :: a -> Int
 
 instance Part Row where
