@@ -38,9 +38,6 @@ rowIndex (Row _ r) = r
 columnIndex :: Column -> Int
 columnIndex (Column _ r) = r
 
-columnBase :: Column -> Int
-columnBase (Column b _) = b
-
 -- Checks for index validities
 
 isCellValid :: Cell -> Bool
