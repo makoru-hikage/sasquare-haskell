@@ -1,9 +1,14 @@
 import Data.Ratio
 import Data.Ix
 
+-- A square always has a base
+-- The base is the root of a perfect square
 type Base = Int
+
+-- An index is always an integer
 type Index = Int
 
+--TODO: Eq and Ord instances
 data Row = Row Base Index deriving (Ord, Eq, Show)
 data Column = Column Base Index deriving (Ord, Eq, Show)
 data Cell = Cell Base Index deriving (Ord, Eq, Show)
@@ -30,7 +35,7 @@ getColumn :: Cell -> Column
 getColumn (Cell b i) = Column b c
     where c = i + b - b * ceiling (i % b)
 
--- Accessors for the Rows and Columns
+-- Line segment indices
 
 rowIndex :: Row -> Int
 rowIndex (Row _ r) = r
