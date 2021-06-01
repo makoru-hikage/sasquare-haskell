@@ -57,8 +57,7 @@ isColumnValid (Column b r) = 1 <= r && r <= b
 -- Intersection Functions
 
 -- Find the cell using a row index and a column index
--- findCellByIndices :: Base -> Int -> Int -> Cell
-findCellByIndices :: Int -> Int -> Int -> Cell
+findCellByIndices :: Base -> Int -> Int -> Cell
 findCellByIndices b r c = Cell b (b*r - b + c)
 
 -- Find the intersection of a row and column
