@@ -35,6 +35,12 @@ getColumn :: Cell -> Column
 getColumn (Cell b i) = Column b c
     where c = i + b - b * ceiling (i % b)
 
+cellIndex :: Cell -> Int 
+cellIndex (Cell _ i) = i
+
+cellIndices :: [Cell] -> [Int]
+cellIndices = map cellIndex
+
 -- Line segment indices
 
 rowIndex :: Row -> Int
@@ -69,4 +75,16 @@ intersectRowColumn r c
     where
         b = getBase r
         ri = rowIndex r
+        ci = columnIndex c
+
+rowCells :: Row -> [Cell]
+rowCells r = map (findCellByIndices b ri) [1..b]
+    where
+        b = getBase r
+        ri = rowIndex r
+
+columnCells :: Column -> [Cell]
+columnCells c = map (flip (findCellByIndices b) ci) [1..b]
+    where
+        b = getBase c
         ci = columnIndex c
