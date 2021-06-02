@@ -40,15 +40,19 @@ data Cell = Cell Base Index deriving (Ord, Eq, Show)
 
 class Part a where
     getBase :: a -> Int
+    getIndex :: a -> Int
 
 instance Part Row where
     getBase (Row b _) = b
+    getIndex (Row _ r) = r
 
 instance Part Column where
     getBase (Column b _) = b
+    getIndex (Column _ c) = c
 
 instance Part Cell where
     getBase (Cell b _) = b
+    getIndex (Cell _ i) = i
 
 -- Functions for the Cell
 
