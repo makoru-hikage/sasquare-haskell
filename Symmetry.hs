@@ -28,6 +28,12 @@ evenCenterIndices x = (mainCenterIndex, secondaryCellIndex)
         mainCenterIndex = ceiling (x % 2)
         secondaryCellIndex = mainCenterIndex + 1
 
+oppositeIndex :: Int -> Int -> Int
+oppositeIndex l x = l + 1 - x
+
+pairOfOpposites :: Int -> Int -> (Int, Int)
+pairOfOpposites l x = (x, oppositeIndex l x)
+
 rowCenter :: Row -> [Maybe Cell]
 rowCenter r
     | isRowValid r && odd b = [oddCenter]
