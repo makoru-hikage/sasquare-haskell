@@ -57,7 +57,7 @@ getColumn :: Cell -> Column
 getColumn (Cell b i) = Column b c
     where c = i + b - b * ceiling (i % b)
 
-cellIndex :: Maybe Cell -> Int 
+cellIndex :: Maybe Cell -> Int
 cellIndex (Just (Cell _ i)) = i
 cellIndex Nothing = 0
 
