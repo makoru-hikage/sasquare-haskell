@@ -98,3 +98,37 @@ functionU b x = b ^ (2 + floor (-(x % b))) * abs (b - x)
 -- - when x = 0 then u(b,x) = b^2
 functionW :: Base -> Index -> Int
 functionW b x = abs (b - x) * (b - 1) + (b ^ floor (x % b)) * (b - x)
+
+-- Cell pinpointing functions for the slants
+
+-- Get the nth cell of a descending slant
+nthCellOfDescSlant :: DescendingSlant -> Index -> Maybe Cell
+nthCellOfDescSlant d n
+    | slantIsNotValid = Nothing
+    | otherwise = Just $ Cell b (diagonalFunc b n + functionU b x)
+    where 
+        b = getBase d
+        x = slantIndex d
+        slantIsNotValid = not (isSlantValid d)
+
+-- Get the nth cell of an ascending slant
+nthCellOfAscSlant :: AscendingSlant -> Index -> Maybe Cell
+nthCellOfAscSlant a n
+    | slantIsNotValid = Nothing
+    | otherwise = Just $ Cell b (antidiagonalFunc b n - functionW b x)
+    where 
+        b = getBase a
+        x = slantIndex a
+        slantIsNotValid = not (isSlantValid a)
+
+-- Cell listing functions for the slants
+
+-- List all the cells of a descending slant
+descendingSlantCells :: DescendingSlant -> [Maybe Cell]
+descendingSlantCells a = map (nthCellOfDescSlant a) [1..n]
+    where n = slantCardinality a
+
+-- List all the cells of an ascending slant
+ascendingSlantCells :: AscendingSlant -> [Maybe Cell]
+ascendingSlantCells a = map (nthCellOfAscSlant a) [1..n]
+    where n = slantCardinality a
