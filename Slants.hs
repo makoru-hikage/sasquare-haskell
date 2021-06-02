@@ -42,11 +42,20 @@ getAscendingSlant :: Cell -> AscendingSlant
 getAscendingSlant i = AscendingSlant (getBase i) (intersectionSum i - 1)
 
 -- Get the two longest slants of each kind
+
+-- Used to list a cell index of the nth cell of the diagonal
+diagonalFunc :: Base -> Int -> Int
+diagonalFunc b n = cellIndex (findCellByIndices b n n)
+
+-- Used to list a cell index of the nth cell of the antidiagonal
+antidiagonalFunc :: Base -> Int -> Int
+antidiagonalFunc b n = b^2 - b*n + n
+
 diagonalCells :: Base -> [Cell]
-diagonalCells b = map (\n -> findCellByIndices b n n) [1..b]
+diagonalCells b = map (Cell b . diagonalFunc b) [1..b]
 
 antidiagonalCells :: Base -> [Cell]
-antidiagonalCells b = map (Cell b . (\n -> b^2 - b*n + n)) [1..b]
+antidiagonalCells b = map (Cell b . antidiagonalFunc b) [1..b]
 
 -- Predicate functions with regards to the kind of slant
 isSubdiagonal :: Cell -> Bool
@@ -72,9 +81,3 @@ isAntiDiagonal i = intersectionSum i == (1 + getBase i)
 
 isAntiOffDiagonal :: Cell -> Bool
 isAntiOffDiagonal i = isAntiSubdiagonal i || isAntiSuperdiagonal i
-
-functionU :: Base -> Index -> Int
-functionU b x = b ^ (2 + floor (-(x % b))) * abs (b - x)
-
-functionW :: Base -> Index -> Int
-functionW b x = abs (b - x) * (b - 1) + (b ^ floor (x % b)) * (b - x)
