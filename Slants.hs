@@ -3,6 +3,24 @@ import Parts
 data DescendingSlant = DescendingSlant Base Index deriving (Eq, Ord, Show)
 data AscendingSlant = AscendingSlant Base Index deriving (Eq, Ord, Show)
 
+class Slant a where
+    slantCardinality :: a -> Int
+    slantIndex :: a -> Int
+
+instance Part DescendingSlant where
+    getBase (DescendingSlant b _) = b
+
+instance Part AscendingSlant where
+    getBase (AscendingSlant b _) = b
+
+instance Slant DescendingSlant where
+    slantIndex (DescendingSlant _ x) = x
+    slantCardinality (DescendingSlant b x) = b - abs (b - x)
+
+instance Slant AscendingSlant where
+    slantIndex (AscendingSlant _ x) = x
+    slantCardinality (AscendingSlant b x) = b - abs (b - x)
+
 -- An equation used to find the ascending slant of a cell
 intersectionSum :: Cell -> Int
 intersectionSum i = rowIndex (getRow i) + columnIndex (getColumn i)
@@ -21,13 +39,6 @@ getDescendingSlant i = DescendingSlant b (b + intersectionDiff i)
 
 getAscendingSlant :: Cell -> AscendingSlant
 getAscendingSlant i = AscendingSlant (getBase i) (intersectionSum i - 1)
-
--- Slant index accessors
-descendingIndex :: DescendingSlant -> Int
-descendingIndex (DescendingSlant _ k) = k
-
-ascendingIndex :: AscendingSlant -> Int
-ascendingIndex (AscendingSlant _ u) = u
 
 -- Get the two longest slants of each kind
 diagonalCells :: Base -> [Cell]
