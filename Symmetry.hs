@@ -5,6 +5,7 @@ import Parts (
     Row(..),
     Column(..),
     Cell(..),
+    cellIndex,
     rowCells,
     isRowValid,
     isColumnValid,
@@ -48,3 +49,20 @@ columnCenter c
         ri = columnIndex c
         oddCenter = findCellByIndices b ri (oddCenterIndex b)
         evenCenter = both (nthCellOfColumn c) (evenCenterIndices b)
+
+squareCenter :: Base -> [Maybe Cell]
+squareCenter b
+    | b < 1 = [Nothing]
+    | odd b = [oddCenter]
+    | even b = map (Just . Cell b) evenCenterIndices
+    where
+        oddCenter =
+            findCellByIndices b (oddCenterIndex b) (oddCenterIndex b)
+        evenCenterIndices = [
+            cellIndex oddCenter,
+            cellIndex oddCenter + 1,
+            cellIndex oddCenter + b,
+            cellIndex oddCenter + b + 1
+            ]
+
+
