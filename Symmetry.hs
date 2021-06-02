@@ -20,7 +20,7 @@ import Parts (
     )
 
 -- Maps a function to each element of the pair
-both :: (a->b) -> (a,a) -> (b,b)
+both :: (a -> b) -> (a,a) -> (b,b)
 both f (x,y) = (f x, f y)
 
 -- Find the centermost element in a finite list of an odd length
@@ -84,6 +84,7 @@ squareCenter b
             cellIndex oddCenter + b + 1
             ]
 
+-- Find the opposite cell of a cell along their row
 horizontalOpposite :: Cell -> Maybe Cell
 horizontalOpposite i
     | isCellValid i = nthCellOfRow r (oppositeIndex b c)
@@ -93,6 +94,7 @@ horizontalOpposite i
         r = getRow i
         c = getIndex (getColumn i)
 
+-- Find the opposite cell of a cell along their column
 verticalOpposite :: Cell -> Maybe Cell
 verticalOpposite i
     | isCellValid i = nthCellOfColumn c (oppositeIndex b r)
@@ -102,6 +104,7 @@ verticalOpposite i
         r = getIndex (getRow i)
         c = getColumn i
 
+-- Find the opposite cell of a cell along their descending slant
 descendingOpposite :: Cell -> Maybe Cell
 descendingOpposite i
     | isCellValid i = findCellByIndices b r c
@@ -117,11 +120,13 @@ descendingOpposite i
         -- Column Index of the opposite cell
         c = s - c'
 
+-- Find the opposite cell of a cell along their ascending slant
 ascendingOpposite :: Cell -> Maybe Cell
 ascendingOpposite i
     | isCellValid i = findCellByIndices b r c
     | otherwise = Nothing
     where
         b = getBase i
+        -- The row and column indices are merely swapped
         r = getIndex $ getColumn i
         c = getIndex $ getRow i 
