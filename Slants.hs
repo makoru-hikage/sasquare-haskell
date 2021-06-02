@@ -1,11 +1,9 @@
 import Data.Ratio ( (%) )
 import Parts
     ( cellIndex,
-      columnIndex,
       findCellByIndices,
       getColumn,
       getRow,
-      rowIndex,
       Base,
       Cell(..),
       Index,
@@ -21,9 +19,11 @@ class Slant a where
 
 instance Part DescendingSlant where
     getBase (DescendingSlant b _) = b
+    getIndex = slantIndex
 
 instance Part AscendingSlant where
     getBase (AscendingSlant b _) = b
+    getIndex = slantIndex
 
 instance Slant DescendingSlant where
     slantIndex (DescendingSlant _ x) = x
@@ -43,14 +43,14 @@ countSlantsInSquare b = 2*b - 1
 
 -- An equation used to find the ascending slant of a cell
 intersectionSum :: Cell -> Int
-intersectionSum i = rowIndex (getRow i) + columnIndex (getColumn i)
+intersectionSum i = getIndex (getRow i) + getIndex (getColumn i)
 
 -- An equation used to find the descending slant of a cell
 intersectionDiff :: Cell -> Int
-intersectionDiff i = columnIndex (getColumn i) - rowIndex (getRow i)
+intersectionDiff i = getIndex (getColumn i) - getIndex (getRow i)
 
 rIntersectionDiff :: Cell -> Int
-rIntersectionDiff i = rowIndex (getRow i) - columnIndex (getColumn i)
+rIntersectionDiff i = getIndex (getRow i) - getIndex (getColumn i)
 
 -- Find which of the ascending or descending slant a cell belongs to
 getDescendingSlant :: Cell -> DescendingSlant
