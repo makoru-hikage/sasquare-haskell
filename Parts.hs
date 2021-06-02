@@ -7,6 +7,7 @@ module Parts(
     Part(..),
     getRow,
     getColumn,
+    getRowColumnPair,
     isCellValid,
     isRowValid,
     isColumnValid,
@@ -58,6 +59,9 @@ getRow (Cell b i) = Row b r
 getColumn :: Cell -> Column
 getColumn (Cell b i) = Column b c
     where c = i + b - b * ceiling (i % b)
+
+getRowColumnPair :: Cell -> (Row, Column)
+getRowColumnPair i = (getRow i, getColumn i)
 
 cellIndex :: Maybe Cell -> Int
 cellIndex (Just (Cell _ i)) = i
