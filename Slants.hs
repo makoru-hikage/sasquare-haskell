@@ -7,6 +7,7 @@ data AscendingSlant = AscendingSlant Base Index deriving (Eq, Ord, Show)
 class Slant a where
     slantCardinality :: a -> Int
     slantIndex :: a -> Int
+    isSlantValid :: a -> Bool
 
 instance Part DescendingSlant where
     getBase (DescendingSlant b _) = b
@@ -17,10 +18,18 @@ instance Part AscendingSlant where
 instance Slant DescendingSlant where
     slantIndex (DescendingSlant _ x) = x
     slantCardinality (DescendingSlant b x) = b - abs (b - x)
+    isSlantValid (DescendingSlant b x) = 
+        x >= 1 && x <= countSlantsInSquare b
 
 instance Slant AscendingSlant where
     slantIndex (AscendingSlant _ x) = x
     slantCardinality (AscendingSlant b x) = b - abs (b - x)
+    isSlantValid (AscendingSlant b x) = 
+        x >= 1 && x <= countSlantsInSquare b
+
+-- Counts the total number of slants in a square per kind
+countSlantsInSquare :: Base -> Int
+countSlantsInSquare b = 2*b - 1
 
 -- An equation used to find the ascending slant of a cell
 intersectionSum :: Cell -> Int
@@ -41,8 +50,6 @@ getDescendingSlant i = DescendingSlant b (b + intersectionDiff i)
 getAscendingSlant :: Cell -> AscendingSlant
 getAscendingSlant i = AscendingSlant (getBase i) (intersectionSum i - 1)
 
--- Get the two longest slants of each kind
-
 -- Used to list a cell index of the nth cell of the diagonal
 diagonalFunc :: Base -> Int -> Int
 diagonalFunc b n = cellIndex (findCellByIndices b n n)
@@ -57,7 +64,7 @@ diagonalCells b = map (Cell b . diagonalFunc b) [1..b]
 antidiagonalCells :: Base -> [Cell]
 antidiagonalCells b = map (Cell b . antidiagonalFunc b) [1..b]
 
--- Predicate functions with regards to the kind of slant
+-- Predicate functions involving the diagonal
 isSubdiagonal :: Cell -> Bool
 isSubdiagonal i = intersectionDiff i < 0
 
@@ -70,6 +77,7 @@ isDiagonal i = intersectionDiff i == 0
 isOffDiagonal :: Cell -> Bool
 isOffDiagonal i = isSubdiagonal i || isSuperdiagonal i
 
+-- Predicate functions involving the antidiagonal
 isAntiSubdiagonal :: Cell -> Bool
 isAntiSubdiagonal i = intersectionSum i > (1 + getBase i)
 
