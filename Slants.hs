@@ -1,3 +1,4 @@
+import Data.Ratio ( (%) )
 import Parts
 
 data DescendingSlant = DescendingSlant Base Index deriving (Eq, Ord, Show)
@@ -71,3 +72,9 @@ isAntiDiagonal i = intersectionSum i == (1 + getBase i)
 
 isAntiOffDiagonal :: Cell -> Bool
 isAntiOffDiagonal i = isAntiSubdiagonal i || isAntiSuperdiagonal i
+
+functionU :: Base -> Index -> Int
+functionU b x = b ^ (2 + floor (-(x % b))) * abs (b - x)
+
+functionW :: Base -> Index -> Int
+functionW b x = abs (b - x) * (b - 1) + (b ^ floor (x % b)) * (b - x)
