@@ -109,8 +109,8 @@ intersectRowColumn r c
     | otherwise = findCellByIndices b ri ci
     where
         b = getBase r
-        ri = rowIndex r
-        ci = columnIndex c
+        ri = getIndex r
+        ci = getIndex c
 
 nthCellOfRow :: Row -> Index -> Maybe Cell
 nthCellOfRow r n
@@ -118,7 +118,7 @@ nthCellOfRow r n
     | otherwise = findCellByIndices b ri n
     where 
         b = getBase r
-        ri = rowIndex r
+        ri = getIndex r
 
 nthCellOfColumn :: Column -> Index -> Maybe Cell
 nthCellOfColumn c n
@@ -126,16 +126,16 @@ nthCellOfColumn c n
     | otherwise = findCellByIndices b n ci
     where 
         b = getBase c
-        ci = columnIndex c
+        ci = getIndex c
 
 rowCells :: Row -> [Maybe Cell]
 rowCells r = map (findCellByIndices b ri) [1..b]
     where
         b = getBase r
-        ri = rowIndex r
+        ri = getIndex r
 
 columnCells :: Column -> [Maybe Cell]
 columnCells c = map (flip (findCellByIndices b) ci) [1..b]
     where
         b = getBase c
-        ci = columnIndex c
+        ci = getIndex c
