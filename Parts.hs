@@ -16,6 +16,8 @@ module Parts(
     columnIndex,
     findCellByIndices,
     intersectRowColumn,
+    nthCellOfRow,
+    nthCellOfColumn,
     rowCells,
     columnCells
 ) where
@@ -100,6 +102,22 @@ intersectRowColumn r c
     where
         b = getBase r
         ri = rowIndex r
+        ci = columnIndex c
+
+nthCellOfRow :: Row -> Index -> Maybe Cell
+nthCellOfRow r n
+    | not (isRowValid r) = Nothing
+    | otherwise = findCellByIndices b ri n
+    where 
+        b = getBase r
+        ri = rowIndex r
+
+nthCellOfColumn :: Column -> Index -> Maybe Cell
+nthCellOfColumn c n
+    | not (isColumnValid c) = Nothing
+    | otherwise = findCellByIndices b n ci
+    where 
+        b = getBase c
         ci = columnIndex c
 
 rowCells :: Row -> [Maybe Cell]
