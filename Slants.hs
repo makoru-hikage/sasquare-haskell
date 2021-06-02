@@ -81,3 +81,20 @@ isAntiDiagonal i = intersectionSum i == (1 + getBase i)
 
 isAntiOffDiagonal :: Cell -> Bool
 isAntiOffDiagonal i = isAntiSubdiagonal i || isAntiSuperdiagonal i
+
+-- Special functions with the following traits
+-- - when x = b then f(b,x) = 0
+-- - when `1 leq x leq b` then f(b,x) = b^2 - b*x
+
+-- FunctionU has the following traits
+-- - when x = 2*b then u(b,x) = b
+-- - when `1 leq x leq 2*b` then u(b,x) = x - b
+-- - when x = 0 then u(b,x) = b^3
+functionU :: Base -> Index -> Int
+functionU b x = b ^ (2 + floor (-(x % b))) * abs (b - x)
+
+-- FunctionW has the following traits
+-- - when `1 leq x < 2*b` then w(b,x) = b - x
+-- - when x = 0 then u(b,x) = b^2
+functionW :: Base -> Index -> Int
+functionW b x = abs (b - x) * (b - 1) + (b ^ floor (x % b)) * (b - x)
