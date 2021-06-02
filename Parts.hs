@@ -4,7 +4,7 @@ module Parts(
     Row(..),
     Column(..),
     Cell(..),
-    Part,
+    Part(..),
     getRow,
     getColumn,
     cellIndex,
