@@ -1,5 +1,15 @@
 import Data.Ratio ( (%) )
 import Parts
+    ( cellIndex,
+      columnIndex,
+      findCellByIndices,
+      getColumn,
+      getRow,
+      rowIndex,
+      Base,
+      Cell(..),
+      Index,
+      Part(..) )
 
 data DescendingSlant = DescendingSlant Base Index deriving (Eq, Ord, Show)
 data AscendingSlant = AscendingSlant Base Index deriving (Eq, Ord, Show)
