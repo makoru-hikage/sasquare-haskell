@@ -1,6 +1,7 @@
 import Data.Ratio ( (%) )
 import BasicParts
     ( cellIndex,
+      cellIndices, --added for interactive apps like ghci
       findCellByIndices,
       getColumn,
       getRow,
