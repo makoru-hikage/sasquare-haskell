@@ -6,14 +6,17 @@ import Parts (
     Column(..),
     Cell(..),
     cellIndex,
+    getRow,
+    getColumn,
+    getIndex,
+    getBase,
     rowCells,
+    isCellValid,
     isRowValid,
     isColumnValid,
     findCellByIndices,
     nthCellOfRow,
-    nthCellOfColumn,
-    getBase,
-    rowIndex, columnIndex
+    nthCellOfColumn
     )
 
 -- Maps a function to each element of the pair
@@ -48,7 +51,7 @@ rowCenter r
     | otherwise = [Nothing]
     where
         b = getBase r
-        ri = rowIndex r
+        ri = getIndex r
         oddCenter = findCellByIndices b ri (oddCenterIndex b)
         evenCenter = both (nthCellOfRow r) (evenCenterIndices b)
 
@@ -60,7 +63,7 @@ columnCenter c
     | otherwise = [Nothing]
     where
         b = getBase c
-        ri = columnIndex c
+        ri = getIndex c
         oddCenter = findCellByIndices b ri (oddCenterIndex b)
         evenCenter = both (nthCellOfColumn c) (evenCenterIndices b)
 
@@ -81,4 +84,44 @@ squareCenter b
             cellIndex oddCenter + b + 1
             ]
 
+horizontalOpposite :: Cell -> Maybe Cell
+horizontalOpposite i
+    | isCellValid i = nthCellOfRow r (oppositeIndex b c)
+    | otherwise = Nothing 
+    where
+        b = getBase i
+        r = getRow i
+        c = getIndex (getColumn i)
 
+verticalOpposite :: Cell -> Maybe Cell
+verticalOpposite i
+    | isCellValid i = nthCellOfColumn c (oppositeIndex b r)
+    | otherwise = Nothing 
+    where
+        b = getBase i
+        r = getIndex (getRow i)
+        c = getColumn i
+
+descendingOpposite :: Cell -> Maybe Cell
+descendingOpposite i
+    | isCellValid i = findCellByIndices b r c
+    | otherwise = Nothing
+    where
+        b = getBase i
+        -- Find the opposite of the row and column indices
+        r' = oppositeIndex b $ getIndex $ getRow i
+        c' = oppositeIndex b $ getIndex $ getColumn i
+        s = r' + c'
+        -- Row Index of the opposite cell
+        r = s - r'
+        -- Column Index of the opposite cell
+        c = s - c'
+
+ascendingOpposite :: Cell -> Maybe Cell
+ascendingOpposite i
+    | isCellValid i = findCellByIndices b r c
+    | otherwise = Nothing
+    where
+        b = getBase i
+        r = getIndex $ getColumn i
+        c = getIndex $ getRow i 
