@@ -54,10 +54,11 @@ getColumn :: Cell -> Column
 getColumn (Cell b i) = Column b c
     where c = i + b - b * ceiling (i % b)
 
-cellIndex :: Cell -> Int 
-cellIndex (Cell _ i) = i
+cellIndex :: Maybe Cell -> Int 
+cellIndex (Just (Cell _ i)) = i
+cellIndex Nothing = 0
 
-cellIndices :: [Cell] -> [Int]
+cellIndices :: [Maybe Cell] -> [Int]
 cellIndices = map cellIndex
 
 -- Line segment indices
@@ -82,27 +83,29 @@ isColumnValid (Column b r) = 1 <= r && r <= b
 -- Intersection Functions
 
 -- Find the cell using a row index and a column index
-findCellByIndices :: Base -> Int -> Int -> Cell
-findCellByIndices b r c = Cell b (b*r - b + c)
+findCellByIndices :: Base -> Int -> Int -> Maybe Cell
+findCellByIndices b r c
+    | c == 0 || r == 0 = Nothing
+    | otherwise = Just (Cell b (b*r - b + c))
 
 -- Find the intersection of a row and column
 intersectRowColumn :: Row -> Column -> Maybe Cell
 intersectRowColumn r c
     | getBase r /= getBase c = Nothing
     | not (isRowValid r && isColumnValid c) = Nothing
-    | otherwise = Just $ findCellByIndices b ri ci
+    | otherwise = findCellByIndices b ri ci
     where
         b = getBase r
         ri = rowIndex r
         ci = columnIndex c
 
-rowCells :: Row -> [Cell]
+rowCells :: Row -> [Maybe Cell]
 rowCells r = map (findCellByIndices b ri) [1..b]
     where
         b = getBase r
         ri = rowIndex r
 
-columnCells :: Column -> [Cell]
+columnCells :: Column -> [Maybe Cell]
 columnCells c = map (flip (findCellByIndices b) ci) [1..b]
     where
         b = getBase c
