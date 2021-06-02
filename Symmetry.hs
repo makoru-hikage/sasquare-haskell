@@ -1,6 +1,6 @@
 import Data.Ratio ( (%) )
 import Data.Tuple ()
-import Parts (
+import BasicParts (
     Base,
     Row(..),
     Column(..),

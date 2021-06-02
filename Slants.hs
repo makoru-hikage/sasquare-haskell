@@ -1,5 +1,5 @@
 import Data.Ratio ( (%) )
-import Parts
+import BasicParts
     ( cellIndex,
       findCellByIndices,
       getColumn,

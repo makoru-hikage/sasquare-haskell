@@ -1,4 +1,4 @@
-module Parts(
+module BasicParts(
     Index,
     Base,
     Row(..),
