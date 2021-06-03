@@ -105,8 +105,8 @@ findCellByIndices b r c
 intersectRowColumn :: Row -> Column -> Maybe Cell
 intersectRowColumn r c
     | getBase r /= getBase c = Nothing
-    | not (isRowValid r && isColumnValid c) = Nothing
-    | otherwise = findCellByIndices b ri ci
+    | isRowValid r && isColumnValid c = findCellByIndices b ri ci
+    | otherwise = Nothing
     where
         b = getBase r
         ri = getIndex r
@@ -114,16 +114,16 @@ intersectRowColumn r c
 
 nthCellOfRow :: Row -> Index -> Maybe Cell
 nthCellOfRow r n
-    | not (isRowValid r) = Nothing
-    | otherwise = findCellByIndices b ri n
+    | isRowValid r = findCellByIndices b ri n
+    | otherwise = Nothing
     where 
         b = getBase r
         ri = getIndex r
 
 nthCellOfColumn :: Column -> Index -> Maybe Cell
 nthCellOfColumn c n
-    | not (isColumnValid c) = Nothing
-    | otherwise = findCellByIndices b n ci
+    | isColumnValid c = findCellByIndices b n ci
+    | otherwise = Nothing
     where 
         b = getBase c
         ci = getIndex c
