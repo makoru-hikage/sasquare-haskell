@@ -104,6 +104,13 @@ instance Ord Cell where
             n1 = getIndex i1
             n2 = getIndex i2
 
+-- Square Functions
+allCells :: Base -> [Cell]
+allCells b = map (Cell b) [1..b^2]
+
+isBaseValid :: Base -> Bool
+isBaseValid b = b >= 1
+
 -- Cell functions
 getRow :: Cell -> Row
 getRow (Cell b i) = Row b r
@@ -128,6 +135,12 @@ areTheTwoCellsSame i1 i2 = sameSquare i1 i2 && n1 == n2
     where
         n1 = getIndex i1
         n2 = getIndex i2
+
+isCellInRow :: Cell -> Row -> Bool
+isCellInRow i r = getRow i == r
+
+isCellInColumn :: Cell -> Column -> Bool
+isCellInColumn i c = getColumn i == c
 
 -- Checks for index validities
 
