@@ -36,6 +36,7 @@ data Row = Row Base Index deriving (Show)
 data Column = Column Base Index deriving (Show)
 data Cell = Cell Base Index deriving (Show)
 
+-- Part and its instances
 class Part a where
     getBase :: a -> Int
     getIndex :: a -> Int
