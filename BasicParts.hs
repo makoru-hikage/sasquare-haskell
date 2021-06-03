@@ -32,7 +32,7 @@ type Base = Int
 type Index = Int
 
 --TODO: Eq and Ord instances
-data Row = Row Base Index deriving (Show)
+data Row = Row Base Index deriving (Ord, Show)
 data Column = Column Base Index deriving (Show)
 data Cell = Cell Base Index deriving (Show)
 
@@ -52,6 +52,11 @@ instance Part Column where
 instance Part Cell where
     getBase (Cell b _) = b
     getIndex (Cell _ i) = i
+
+-- Eq instances of some Parts
+instance Eq Row where
+    x == y = areTheTwoRowsSame x y
+    x /= y = not (areTheTwoRowsSame x y)
 
 -- Cell functions
 getRow :: Cell -> Row
@@ -116,6 +121,14 @@ rowCells r = map (findCellByIndices b ri) [1..b]
     where
         b = getBase r
         ri = getIndex r
+
+areTheTwoRowsSame :: Row -> Row -> Bool
+areTheTwoRowsSame r1 r2 = b1 == b2 && n1 == n2
+    where
+        b1 = getBase r1
+        b2 = getBase r2
+        n1 = getIndex r1
+        n2 = getIndex r2
 
 -- Column functions
 nthCellOfColumn :: Column -> Index -> Maybe Cell
