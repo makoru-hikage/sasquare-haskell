@@ -52,8 +52,7 @@ instance Part Cell where
     getBase (Cell b _) = b
     getIndex (Cell _ i) = i
 
--- Functions for the Cell
-
+-- Cell functions
 getRow :: Cell -> Row
 getRow (Cell b i) = Row b r
     where r = ceiling (i % b)
@@ -102,6 +101,7 @@ intersectRowColumn r c
         ri = getIndex r
         ci = getIndex c
 
+-- Row functions
 nthCellOfRow :: Row -> Index -> Maybe Cell
 nthCellOfRow r n
     | isRowValid r = findCellByIndices b ri n
@@ -110,6 +110,13 @@ nthCellOfRow r n
         b = getBase r
         ri = getIndex r
 
+rowCells :: Row -> [Maybe Cell]
+rowCells r = map (findCellByIndices b ri) [1..b]
+    where
+        b = getBase r
+        ri = getIndex r
+
+-- Column functions
 nthCellOfColumn :: Column -> Index -> Maybe Cell
 nthCellOfColumn c n
     | isColumnValid c = findCellByIndices b n ci
@@ -117,12 +124,6 @@ nthCellOfColumn c n
     where 
         b = getBase c
         ci = getIndex c
-
-rowCells :: Row -> [Maybe Cell]
-rowCells r = map (findCellByIndices b ri) [1..b]
-    where
-        b = getBase r
-        ri = getIndex r
 
 columnCells :: Column -> [Maybe Cell]
 columnCells c = map (flip (findCellByIndices b) ci) [1..b]
