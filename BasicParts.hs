@@ -104,6 +104,35 @@ instance Ord Cell where
             n1 = getIndex i1
             n2 = getIndex i2
 
+-- Parts comparison functions
+areTheTwoRowsSame :: Row -> Row -> Bool
+areTheTwoRowsSame r1 r2 = sameSquare r1 r2 && n1 == n2
+    where
+        n1 = getIndex r1
+        n2 = getIndex r2
+
+areTheTwoColsSame :: Column -> Column -> Bool
+areTheTwoColsSame c1 c2 = sameSquare c1 c2 && n1 == n2
+    where
+        n1 = getIndex c1
+        n2 = getIndex c2
+
+areTheTwoCellsSame :: Cell -> Cell -> Bool
+areTheTwoCellsSame i1 i2 = sameSquare i1 i2 && n1 == n2
+    where
+        n1 = getIndex i1
+        n2 = getIndex i2
+
+-- Checks for index validities
+isCellValid :: Cell -> Bool
+isCellValid (Cell b i) =  1 <= i && i <= b^2
+
+isRowValid :: Row -> Bool
+isRowValid (Row b r) = 1 <= r && r <= b
+
+isColumnValid :: Column -> Bool
+isColumnValid (Column b c) = 1 <= c && c <= b
+
 -- Square Functions
 allCells :: Base -> [Cell]
 allCells b = map (Cell b) [1..b^2]
@@ -130,28 +159,12 @@ cellIndex Nothing = 0
 cellIndices :: [Maybe Cell] -> [Int]
 cellIndices = map cellIndex
 
-areTheTwoCellsSame :: Cell -> Cell -> Bool
-areTheTwoCellsSame i1 i2 = sameSquare i1 i2 && n1 == n2
-    where
-        n1 = getIndex i1
-        n2 = getIndex i2
-
+-- Cell inclusion predicates
 isCellInRow :: Cell -> Row -> Bool
 isCellInRow i r = getRow i == r
 
 isCellInColumn :: Cell -> Column -> Bool
 isCellInColumn i c = getColumn i == c
-
--- Checks for index validities
-
-isCellValid :: Cell -> Bool
-isCellValid (Cell b i) =  1 <= i && i <= b^2
-
-isRowValid :: Row -> Bool
-isRowValid (Row b r) = 1 <= r && r <= b
-
-isColumnValid :: Column -> Bool
-isColumnValid (Column b c) = 1 <= c && c <= b
 
 -- Intersection Functions
 
@@ -186,18 +199,6 @@ rowCells r = map (findCellByIndices b ri) [1..b]
     where
         b = getBase r
         ri = getIndex r
-
-areTheTwoRowsSame :: Row -> Row -> Bool
-areTheTwoRowsSame r1 r2 = sameSquare r1 r2 && n1 == n2
-    where
-        n1 = getIndex r1
-        n2 = getIndex r2
-
-areTheTwoColsSame :: Column -> Column -> Bool
-areTheTwoColsSame c1 c2 = sameSquare c1 c2 && n1 == n2
-    where
-        n1 = getIndex c1
-        n2 = getIndex c2
 
 -- Column functions
 nthCellOfColumn :: Column -> Index -> Maybe Cell
