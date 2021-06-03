@@ -1,11 +1,13 @@
 import Data.Ratio ( (%) )
-import Data.Tuple ()
+import Data.List ( nub )
+
 import BasicParts (
     Base,
     Row(..),
     Column(..),
     Cell(..),
     cellIndex,
+    cellIndices,
     getRow,
     getColumn,
     getIndex,
@@ -16,7 +18,8 @@ import BasicParts (
     isColumnValid,
     findCellByIndices,
     nthCellOfRow,
-    nthCellOfColumn
+    nthCellOfColumn,
+    columnCells
     )
 
 -- Maps a function to each element of the pair
@@ -129,4 +132,43 @@ ascendingOpposite i
         b = getBase i
         -- The row and column indices are merely swapped
         r = getIndex $ getColumn i
-        c = getIndex $ getRow i 
+        c = getIndex $ getRow i
+
+-- Borders
+topLeftCorner :: Base -> Cell
+topLeftCorner b = Cell b 1
+
+topRightCorner :: Base -> Cell
+topRightCorner b = Cell b b
+
+bottomLeftCorner :: Base -> Cell
+bottomLeftCorner b = Cell b (b^2 - b + 1)
+
+bottomRightCorner :: Base -> Cell
+bottomRightCorner b = Cell b (b^2)
+
+topEdge :: Base -> [Maybe Cell]
+topEdge b = rowCells $ Row b 1
+
+bottomEdge :: Base -> [Maybe Cell]
+bottomEdge b = rowCells $ Row b b
+
+leftEdge :: Base -> [Maybe Cell]
+leftEdge b = columnCells $ Column b 1
+
+rightEdge :: Base -> [Maybe Cell]
+rightEdge b = columnCells $ Column b b
+
+allCorners :: Base -> [Cell]
+allCorners b = map ($b) corners
+    where 
+        corners = [
+            topLeftCorner,
+            topRightCorner,
+            bottomLeftCorner,
+            bottomRightCorner
+            ]
+
+allEdges :: Base -> [Maybe Cell]
+allEdges b = (nub . concat) edges
+    where edges = map ($b) [topEdge,leftEdge,rightEdge,bottomEdge]
