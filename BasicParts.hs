@@ -13,8 +13,6 @@ module BasicParts(
     isColumnValid,
     cellIndex,
     cellIndices,
-    rowIndex,
-    columnIndex,
     findCellByIndices,
     intersectRowColumn,
     nthCellOfRow,
@@ -73,14 +71,6 @@ cellIndex Nothing = 0
 
 cellIndices :: [Maybe Cell] -> [Int]
 cellIndices = map cellIndex
-
--- Line segment indices
-
-rowIndex :: Row -> Int
-rowIndex (Row _ r) = r
-
-columnIndex :: Column -> Int
-columnIndex (Column _ r) = r
 
 -- Checks for index validities
 
