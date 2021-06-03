@@ -127,10 +127,8 @@ rowCells r = map (findCellByIndices b ri) [1..b]
         ri = getIndex r
 
 areTheTwoRowsSame :: Row -> Row -> Bool
-areTheTwoRowsSame r1 r2 = b1 == b2 && n1 == n2
+areTheTwoRowsSame r1 r2 = sameSquare r1 r2 && n1 == n2
     where
-        b1 = getBase r1
-        b2 = getBase r2
         n1 = getIndex r1
         n2 = getIndex r2
 
