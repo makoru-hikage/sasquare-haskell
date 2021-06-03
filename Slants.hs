@@ -123,22 +123,21 @@ functionW b x = abs (b - x) * (b - 1) + (b ^ floor (x % b)) * (b - x)
 -- Get the nth cell of a descending slant
 nthCellOfDescSlant :: DescendingSlant -> Index -> Maybe Cell
 nthCellOfDescSlant d n
-    | slantIsNotValid = Nothing
-    | otherwise = Just $ Cell b (diagonalFunc b n + functionU b x)
+    | isSlantValid d = Just $ Cell b (diagonalFunc b n + functionU b x)
+    | otherwise = Nothing
     where 
         b = getBase d
         x = slantIndex d
-        slantIsNotValid = not (isSlantValid d)
 
 -- Get the nth cell of an ascending slant
 nthCellOfAscSlant :: AscendingSlant -> Index -> Maybe Cell
 nthCellOfAscSlant a n
-    | slantIsNotValid = Nothing
-    | otherwise = Just $ Cell b (antidiagonalFunc b n - functionW b x)
+    | isSlantValid a = 
+        Just $ Cell b (antidiagonalFunc b n - functionW b x)
+    | otherwise = Nothing
     where 
         b = getBase a
         x = slantIndex a
-        slantIsNotValid = not (isSlantValid a)
 
 -- Cell listing functions for the slants
 
