@@ -32,9 +32,9 @@ type Base = Int
 type Index = Int
 
 --TODO: Eq and Ord instances
-data Row = Row Base Index deriving (Ord, Eq, Show)
-data Column = Column Base Index deriving (Ord, Eq, Show)
-data Cell = Cell Base Index deriving (Ord, Eq, Show)
+data Row = Row Base Index deriving (Show)
+data Column = Column Base Index deriving (Show)
+data Cell = Cell Base Index deriving (Show)
 
 class Part a where
     getBase :: a -> Int
