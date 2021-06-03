@@ -1,4 +1,5 @@
 import Data.Ratio ( (%) )
+import Data.List ( nub )
 import BasicParts
     ( cellIndex,
       cellIndices, --added for interactive apps like ghci
@@ -33,13 +34,13 @@ instance Part AscendingSlant where
 instance Slant DescendingSlant where
     slantIndex (DescendingSlant _ x) = x
     slantCardinality (DescendingSlant b x) = b - abs (b - x)
-    isSlantValid (DescendingSlant b x) = 
+    isSlantValid (DescendingSlant b x) =
         x >= 1 && x <= countSlantsInSquare b
 
 instance Slant AscendingSlant where
     slantIndex (AscendingSlant _ x) = x
     slantCardinality (AscendingSlant b x) = b - abs (b - x)
-    isSlantValid (AscendingSlant b x) = 
+    isSlantValid (AscendingSlant b x) =
         x >= 1 && x <= countSlantsInSquare b
 
 -- Counts the total number of slants in a square per kind
@@ -132,17 +133,17 @@ nthCellOfDescSlant :: DescendingSlant -> Index -> Maybe Cell
 nthCellOfDescSlant d n
     | isSlantValid d = Just $ Cell b (diagonalFunc b n + functionU b x)
     | otherwise = Nothing
-    where 
+    where
         b = getBase d
         x = slantIndex d
 
 -- Get the nth cell of an ascending slant
 nthCellOfAscSlant :: AscendingSlant -> Index -> Maybe Cell
 nthCellOfAscSlant a n
-    | isSlantValid a = 
+    | isSlantValid a =
         Just $ Cell b (antidiagonalFunc b n - functionW b x)
     | otherwise = Nothing
-    where 
+    where
         b = getBase a
         x = slantIndex a
 
