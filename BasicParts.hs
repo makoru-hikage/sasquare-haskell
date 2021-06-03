@@ -62,6 +62,48 @@ instance Eq Row where
     x == y = areTheTwoRowsSame x y
     x /= y = not (areTheTwoRowsSame x y)
 
+instance Eq Column where
+    x == y = areTheTwoColsSame x y
+    x /= y = not (areTheTwoColsSame x y)
+
+instance Eq Cell where
+    x == y = areTheTwoCellsSame x y
+    x /= y = not (areTheTwoCellsSame x y)
+
+-- Ord instances of some Parts
+instance Ord Row where
+    compare r1 r2
+        | sameSquare r1 r2 && n1 > n2 = GT
+        | getBase r1 > getBase r2 = GT
+        | sameSquare r1 r2 && n1 < n2 = LT
+        | getBase r1 < getBase r2 = LT
+        | areTheTwoRowsSame r1 r2 = EQ
+        where
+            n1 = getIndex r1
+            n2 = getIndex r2
+
+instance Ord Column where
+    compare c1 c2
+        | sameSquare c1 c2 && n1 > n2 = GT
+        | getBase c1 > getBase c2 = GT
+        | sameSquare c1 c2 && n1 < n2 = LT
+        | getBase c1 < getBase c2 = LT
+        | areTheTwoColsSame c1 c2 = EQ
+        where
+            n1 = getIndex c1
+            n2 = getIndex c2
+
+instance Ord Cell where
+    compare i1 i2
+        | sameSquare i1 i2 && n1 > n2 = GT
+        | getBase i1 > getBase i2 = GT
+        | sameSquare i1 i2 && n1 < n2 = LT
+        | getBase i1 < getBase i2 = LT
+        | areTheTwoCellsSame i1 i2 = EQ
+        where
+            n1 = getIndex i1
+            n2 = getIndex i2
+
 -- Cell functions
 getRow :: Cell -> Row
 getRow (Cell b i) = Row b r
@@ -80,6 +122,12 @@ cellIndex Nothing = 0
 
 cellIndices :: [Maybe Cell] -> [Int]
 cellIndices = map cellIndex
+
+areTheTwoCellsSame :: Cell -> Cell -> Bool
+areTheTwoCellsSame i1 i2 = sameSquare i1 i2 && n1 == n2
+    where
+        n1 = getIndex i1
+        n2 = getIndex i2
 
 -- Checks for index validities
 
@@ -131,6 +179,12 @@ areTheTwoRowsSame r1 r2 = sameSquare r1 r2 && n1 == n2
     where
         n1 = getIndex r1
         n2 = getIndex r2
+
+areTheTwoColsSame :: Column -> Column -> Bool
+areTheTwoColsSame c1 c2 = sameSquare c1 c2 && n1 == n2
+    where
+        n1 = getIndex c1
+        n2 = getIndex c2
 
 -- Column functions
 nthCellOfColumn :: Column -> Index -> Maybe Cell
