@@ -21,10 +21,14 @@ class Slant a where
 instance Part DescendingSlant where
     getBase (DescendingSlant b _) = b
     getIndex = slantIndex
+    sameSquare (DescendingSlant b1 _) (DescendingSlant b2 _) =
+        b1 == b2
 
 instance Part AscendingSlant where
     getBase (AscendingSlant b _) = b
     getIndex = slantIndex
+    sameSquare (AscendingSlant b1 _) (AscendingSlant b2 _) =
+        b1 == b2
 
 instance Slant DescendingSlant where
     slantIndex (DescendingSlant _ x) = x
