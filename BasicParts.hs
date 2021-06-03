@@ -138,7 +138,7 @@ isRowValid :: Row -> Bool
 isRowValid (Row b r) = 1 <= r && r <= b
 
 isColumnValid :: Column -> Bool
-isColumnValid (Column b r) = 1 <= r && r <= b
+isColumnValid (Column b c) = 1 <= c && c <= b
 
 -- Intersection Functions
 
