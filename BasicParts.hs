@@ -40,18 +40,22 @@ data Cell = Cell Base Index deriving (Show)
 class Part a where
     getBase :: a -> Int
     getIndex :: a -> Int
+    sameSquare :: a -> a -> Bool
 
 instance Part Row where
     getBase (Row b _) = b
     getIndex (Row _ r) = r
+    sameSquare (Row b1 _) (Row b2 _) = b1 == b2
 
 instance Part Column where
     getBase (Column b _) = b
     getIndex (Column _ c) = c
+    sameSquare (Column b1 _) (Column b2 _) = b1 == b2
 
 instance Part Cell where
     getBase (Cell b _) = b
     getIndex (Cell _ i) = i
+    sameSquare (Cell b1 _) (Cell b2 _) = b1 == b2
 
 -- Eq instances of some Parts
 instance Eq Row where
