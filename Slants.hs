@@ -10,8 +10,8 @@ import BasicParts
       Index,
       Part(..) )
 
-data DescendingSlant = DescendingSlant Base Index deriving (Eq, Ord, Show)
-data AscendingSlant = AscendingSlant Base Index deriving (Eq, Ord, Show)
+data DescendingSlant = DescendingSlant Base Index deriving (Show)
+data AscendingSlant = AscendingSlant Base Index deriving (Show)
 
 class Slant a where
     slantCardinality :: a -> Int
