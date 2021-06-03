@@ -32,7 +32,7 @@ type Base = Int
 type Index = Int
 
 --TODO: Eq and Ord instances
-data Row = Row Base Index deriving (Ord, Show)
+data Row = Row Base Index deriving (Show)
 data Column = Column Base Index deriving (Show)
 data Cell = Cell Base Index deriving (Show)
 
