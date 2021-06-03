@@ -79,6 +79,9 @@ diagonalCells b = map (Cell b . diagonalFunc b) [1..b]
 antidiagonalCells :: Base -> [Cell]
 antidiagonalCells b = map (Cell b . antidiagonalFunc b) [1..b]
 
+xOfTheSquare :: Base -> [Cell]
+xOfTheSquare b =  nub $ concatMap ($b) [diagonalCells, antidiagonalCells]
+
 -- Predicate functions involving the diagonal
 isSubdiagonal :: Cell -> Bool
 isSubdiagonal i = intersectionDiff i < 0
