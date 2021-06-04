@@ -11,6 +11,8 @@ module BasicParts(
     isCellValid,
     isRowValid,
     isColumnValid,
+    isSquareValid,
+    allCells,
     cellIndex,
     cellIndices,
     findCellByIndices,
@@ -140,6 +142,10 @@ allCells b = map (Cell b) [1..b^2]
 isBaseValid :: Base -> Bool
 isBaseValid b = b >= 1
 
+-- Perhaps it isn't needed, but I need the "n > 0"
+isSquareValid :: Int -> Bool
+isSquareValid n = n > 0 && any (\x -> n == x^2) [1..n]
+
 -- Cell functions
 getRow :: Cell -> Row
 getRow (Cell b i) = Row b r
@@ -190,7 +196,7 @@ nthCellOfRow :: Row -> Index -> Maybe Cell
 nthCellOfRow r n
     | isRowValid r = findCellByIndices b ri n
     | otherwise = Nothing
-    where 
+    where
         b = getBase r
         ri = getIndex r
 
@@ -205,7 +211,7 @@ nthCellOfColumn :: Column -> Index -> Maybe Cell
 nthCellOfColumn c n
     | isColumnValid c = findCellByIndices b n ci
     | otherwise = Nothing
-    where 
+    where
         b = getBase c
         ci = getIndex c
 
