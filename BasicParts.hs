@@ -61,16 +61,16 @@ instance Part Cell where
 
 -- Eq instances of some Parts
 instance Eq Row where
-    x == y = areTheTwoRowsSame x y
-    x /= y = not (areTheTwoRowsSame x y)
+    x == y = areTheRowsSame x y
+    x /= y = not (areTheRowsSame x y)
 
 instance Eq Column where
-    x == y = areTheTwoColsSame x y
-    x /= y = not (areTheTwoColsSame x y)
+    x == y = areTheColsSame x y
+    x /= y = not (areTheColsSame x y)
 
 instance Eq Cell where
-    x == y = areTheTwoCellsSame x y
-    x /= y = not (areTheTwoCellsSame x y)
+    x == y = areTheCellsSame x y
+    x /= y = not (areTheCellsSame x y)
 
 -- Ord instances of some Parts
 instance Ord Row where
@@ -79,7 +79,7 @@ instance Ord Row where
         | getBase r1 > getBase r2 = GT
         | sameSquare r1 r2 && n1 < n2 = LT
         | getBase r1 < getBase r2 = LT
-        | areTheTwoRowsSame r1 r2 = EQ
+        | areTheRowsSame r1 r2 = EQ
         where
             n1 = getIndex r1
             n2 = getIndex r2
@@ -90,7 +90,7 @@ instance Ord Column where
         | getBase c1 > getBase c2 = GT
         | sameSquare c1 c2 && n1 < n2 = LT
         | getBase c1 < getBase c2 = LT
-        | areTheTwoColsSame c1 c2 = EQ
+        | areTheColsSame c1 c2 = EQ
         where
             n1 = getIndex c1
             n2 = getIndex c2
@@ -101,26 +101,26 @@ instance Ord Cell where
         | getBase i1 > getBase i2 = GT
         | sameSquare i1 i2 && n1 < n2 = LT
         | getBase i1 < getBase i2 = LT
-        | areTheTwoCellsSame i1 i2 = EQ
+        | areTheCellsSame i1 i2 = EQ
         where
             n1 = getIndex i1
             n2 = getIndex i2
 
 -- Parts comparison functions
-areTheTwoRowsSame :: Row -> Row -> Bool
-areTheTwoRowsSame r1 r2 = sameSquare r1 r2 && n1 == n2
+areTheRowsSame :: Row -> Row -> Bool
+areTheRowsSame r1 r2 = sameSquare r1 r2 && n1 == n2
     where
         n1 = getIndex r1
         n2 = getIndex r2
 
-areTheTwoColsSame :: Column -> Column -> Bool
-areTheTwoColsSame c1 c2 = sameSquare c1 c2 && n1 == n2
+areTheColsSame :: Column -> Column -> Bool
+areTheColsSame c1 c2 = sameSquare c1 c2 && n1 == n2
     where
         n1 = getIndex c1
         n2 = getIndex c2
 
-areTheTwoCellsSame :: Cell -> Cell -> Bool
-areTheTwoCellsSame i1 i2 = sameSquare i1 i2 && n1 == n2
+areTheCellsSame :: Cell -> Cell -> Bool
+areTheCellsSame i1 i2 = sameSquare i1 i2 && n1 == n2
     where
         n1 = getIndex i1
         n2 = getIndex i2
