@@ -7,7 +7,7 @@ import BasicParts(
     Cell(..),
     Index,
     Part(..),
-    CellGroup(..),
+    CellSet(..),
     cellIndex,
     cellIndices, --added for interactive apps like ghci
     findCellByIndices,
@@ -48,11 +48,11 @@ instance Slant AscendingSlant where
     isSlantValid (AscendingSlant b x) =
         x >= 1 && x <= countSlantsInSquare b
 
--- CellGroup instances
-instance CellGroup DescendingSlant where
+-- CellSet instances
+instance CellSet DescendingSlant where
     isCellIn i x = areTheSlantsSame (getDescendingSlant i) x
 
-instance CellGroup AscendingSlant where
+instance CellSet AscendingSlant where
     isCellIn i x = areTheSlantsSame (getAscendingSlant i) x
 
 -- Counts the total number of slants in a square per kind

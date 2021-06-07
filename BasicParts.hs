@@ -5,7 +5,7 @@ module BasicParts(
     Column(..),
     Cell(..),
     Part(..),
-    CellGroup(..),
+    CellSet(..),
     getRow,
     getColumn,
     getRowColumnPair,
@@ -108,13 +108,13 @@ instance Ord Cell where
             n2 = getIndex i2
 
 -- Cell Groups
-class CellGroup a where
+class CellSet a where
     isCellIn :: Cell -> a -> Bool
 
-instance CellGroup Row where
+instance CellSet Row where
     isCellIn = isCellInRow
 
-instance CellGroup Column where
+instance CellSet Column where
     isCellIn = isCellInColumn
 
 -- Parts comparison functions
