@@ -23,7 +23,7 @@ splitSquareList l
 createSquareIntList :: Base -> [Int]
 createSquareIntList b = map getIndex $ allCells b
 
--- Left-pad a string with spaces 
+-- Left-pad a string with spaces, the maximum length is b^2
 padStrByBase :: Int -> String -> String
 padStrByBase b s = foldr (++) s lengthOfPadding
     where
