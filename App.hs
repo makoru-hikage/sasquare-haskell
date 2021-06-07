@@ -23,23 +23,31 @@ splitSquareList l
 createSquareIntList :: Base -> [Int]
 createSquareIntList b = map getIndex $ allCells b
 
--- Left-pad a number with spaces 
-padNumberByBase :: Int -> Int -> String
-padNumberByBase b n = foldr (++) (show n) lengthOfPadding
+-- Left-pad a string with spaces 
+padStrByBase :: Int -> String -> String
+padStrByBase b s = foldr (++) s lengthOfPadding
     where
-        nDigits = length $ show n -- Number of digits of n
+        nDigits = length s -- Number of digits of n
         squareDigits = length $ show (b^2)
         lengthOfPadding = replicate (squareDigits - nDigits) " "
 
+-- Retain Int in String form if...
+retainNumInStrIf :: (Int -> Bool) -> Int -> String
+retainNumInStrIf p n
+     | p n = show n
+     | otherwise = "*"
+
 -- The String representation of an Int Square
-presentSquare :: Base -> String
-presentSquare b = square
+-- [Index] is selected Cell Indices
+presentSquare :: Base -> [Index] -> String
+presentSquare b i = square
     where
         square =(
             unlines -- add \n per multiples of b
             . map unwords -- separate elements by space
             . splitSquareList
-            . map (padNumberByBase b)
+            . map (padStrByBase b . retainNumInStrIf cellIsSelected)
             . createSquareIntList) b
+        cellIsSelected = (`elem` i)
 
 -- TODO: Main and its GetOpt
