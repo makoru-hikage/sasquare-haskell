@@ -18,6 +18,7 @@ import BasicParts(
 data DescendingSlant = DescendingSlant Base Index deriving (Show)
 data AscendingSlant = AscendingSlant Base Index deriving (Show)
 
+-- Slant and Part instances
 class Slant a where
     slantCardinality :: a -> Int
     slantIndex :: a -> Int
@@ -47,6 +48,7 @@ instance Slant AscendingSlant where
     isSlantValid (AscendingSlant b x) =
         x >= 1 && x <= countSlantsInSquare b
 
+-- CellGroup instances
 instance CellGroup DescendingSlant where
     isCellIn i x = areTheSlantsSame (getDescendingSlant i) x
 
