@@ -1,15 +1,19 @@
 import Data.Ratio ( (%) )
 import Data.List ( nub )
-import BasicParts
-    ( cellIndex,
-      cellIndices, --added for interactive apps like ghci
-      findCellByIndices,
-      getColumn,
-      getRow,
-      Base,
-      Cell(..),
-      Index,
-      Part(..) )
+import BasicParts(
+    Base,
+    Row(..),
+    Column(..),
+    Cell(..),
+    Index,
+    Part(..),
+    CellGroup(..),
+    cellIndex,
+    cellIndices, --added for interactive apps like ghci
+    findCellByIndices,
+    getColumn,
+    getRow
+    )
 
 data DescendingSlant = DescendingSlant Base Index deriving (Show)
 data AscendingSlant = AscendingSlant Base Index deriving (Show)
@@ -42,6 +46,12 @@ instance Slant AscendingSlant where
     slantCardinality (AscendingSlant b x) = b - abs (b - x)
     isSlantValid (AscendingSlant b x) =
         x >= 1 && x <= countSlantsInSquare b
+
+instance CellGroup DescendingSlant where
+    isCellIn i x = areTheSlantsSame (getDescendingSlant i) x
+
+instance CellGroup AscendingSlant where
+    isCellIn i x = areTheSlantsSame (getAscendingSlant i) x
 
 -- Counts the total number of slants in a square per kind
 countSlantsInSquare :: Base -> Int
@@ -108,6 +118,13 @@ isAntiDiagonal i = intersectionSum i == (1 + getBase i)
 
 isAntiOffDiagonal :: Cell -> Bool
 isAntiOffDiagonal i = isAntiSubdiagonal i || isAntiSuperdiagonal i
+
+-- Slants comparison function
+areTheSlantsSame :: (Slant a, Part a) => a -> a -> Bool
+areTheSlantsSame x1 x2 = sameSquare x1 x2 && n1 == n2
+    where
+        n1 = getIndex x1
+        n2 = getIndex x2
 
 -- Special functions with the following traits
 -- - when x = b then f(b,x) = 0
