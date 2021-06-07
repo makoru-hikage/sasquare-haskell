@@ -110,12 +110,15 @@ instance Ord Cell where
 -- Cell Groups
 class CellSet a where
     isCellIn :: Cell -> a -> Bool
+    cellIndicesFromSet :: a -> [Int] 
 
 instance CellSet Row where
     isCellIn = isCellInRow
+    cellIndicesFromSet = cellIndices . rowCells
 
 instance CellSet Column where
     isCellIn = isCellInColumn
+    cellIndicesFromSet = cellIndices . columnCells
 
 -- Parts comparison functions
 areTheRowsSame :: Row -> Row -> Bool

@@ -51,9 +51,11 @@ instance Slant AscendingSlant where
 -- CellSet instances
 instance CellSet DescendingSlant where
     isCellIn i x = areTheSlantsSame (getDescendingSlant i) x
+    cellIndicesFromSet = cellIndices . descendingSlantCells
 
 instance CellSet AscendingSlant where
     isCellIn i x = areTheSlantsSame (getAscendingSlant i) x
+    cellIndicesFromSet = cellIndices . ascendingSlantCells
 
 -- Counts the total number of slants in a square per kind
 countSlantsInSquare :: Base -> Int
