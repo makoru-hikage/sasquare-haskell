@@ -1,5 +1,6 @@
 import Data.Ratio ( (%) )
 import Data.List ( nub )
+import Data.Maybe ( mapMaybe )
 import BasicParts(
     Base,
     Row(..),
@@ -8,6 +9,7 @@ import BasicParts(
     Index,
     Part(..),
     CellSet(..),
+    isCellValid,
     cellIndex,
     cellIndices, --added for interactive apps like ghci
     findCellByIndices,
@@ -80,19 +82,27 @@ getDescendingSlant i = DescendingSlant b (b + intersectionDiff i)
 getAscendingSlant :: Cell -> AscendingSlant
 getAscendingSlant i = AscendingSlant (getBase i) (intersectionSum i - 1)
 
--- Used to list a cell index of the nth cell of the diagonal
 diagonalFunc :: Base -> Int -> Int
-diagonalFunc b n = cellIndex (findCellByIndices b n n)
+diagonalFunc b n = b*n - b + n
 
--- Used to list a cell index of the nth cell of the antidiagonal
 antidiagonalFunc :: Base -> Int -> Int
 antidiagonalFunc b n = b^2 - b*n + n
 
+-- Used to list a cell index of the nth cell of the diagonal
+nthCellOfDiagonal :: Base -> Int -> Maybe Cell
+nthCellOfDiagonal b n = findCellByIndices b n n
+
+-- Used to list a cell index of the nth cell of the antidiagonal
+nthCellOfAntidiagonal :: Base -> Int -> Maybe Cell
+nthCellOfAntidiagonal b n
+    | isCellValid (Cell b i) = Just $ Cell b i
+        where i = antidiagonalFunc b n
+
 diagonalCells :: Base -> [Cell]
-diagonalCells b = map (Cell b . diagonalFunc b) [1..b]
+diagonalCells b = mapMaybe (nthCellOfDiagonal b) [1..b]
 
 antidiagonalCells :: Base -> [Cell]
-antidiagonalCells b = map (Cell b . antidiagonalFunc b) [1..b]
+antidiagonalCells b = mapMaybe (nthCellOfAntidiagonal b) [1..b]
 
 xOfTheSquare :: Base -> [Cell]
 xOfTheSquare b =  nub $ concatMap ($b) [diagonalCells, antidiagonalCells]
@@ -171,11 +181,11 @@ nthCellOfAscSlant a n
 -- Cell listing functions for the slants
 
 -- List all the cells of a descending slant
-descendingSlantCells :: DescendingSlant -> [Maybe Cell]
-descendingSlantCells a = map (nthCellOfDescSlant a) [1..n]
+descendingSlantCells :: DescendingSlant -> [Cell]
+descendingSlantCells a = mapMaybe (nthCellOfDescSlant a) [1..n]
     where n = slantCardinality a
 
 -- List all the cells of an ascending slant
-ascendingSlantCells :: AscendingSlant -> [Maybe Cell]
-ascendingSlantCells a = map (nthCellOfAscSlant a) [1..n]
+ascendingSlantCells :: AscendingSlant -> [Cell]
+ascendingSlantCells a = mapMaybe (nthCellOfAscSlant a) [1..n]
     where n = slantCardinality a

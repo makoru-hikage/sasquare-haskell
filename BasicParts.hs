@@ -173,11 +173,10 @@ getColumn (Cell b i) = Column b c
 getRowColumnPair :: Cell -> (Row, Column)
 getRowColumnPair i = (getRow i, getColumn i)
 
-cellIndex :: Maybe Cell -> Int
-cellIndex (Just (Cell _ i)) = i
-cellIndex Nothing = 0
+cellIndex :: Cell -> Int
+cellIndex (Cell _ i) = i
 
-cellIndices :: [Maybe Cell] -> [Int]
+cellIndices :: [Cell] -> [Int]
 cellIndices = filter (> 0) . map cellIndex
 
 -- Cell inclusion predicates
@@ -215,8 +214,8 @@ nthCellOfRow r n
         b = getBase r
         ri = getIndex r
 
-rowCells :: Row -> [Maybe Cell]
-rowCells r = map (findCellByIndices b ri) [1..b]
+rowCells :: Row -> [Cell]
+rowCells r = mapMaybe (findCellByIndices b ri) [1..b]
     where
         b = getBase r
         ri = getIndex r
@@ -230,8 +229,8 @@ nthCellOfColumn c n
         b = getBase c
         ci = getIndex c
 
-columnCells :: Column -> [Maybe Cell]
-columnCells c = map (flip (findCellByIndices b) ci) [1..b]
+columnCells :: Column -> [Cell]
+columnCells c = mapMaybe (flip (findCellByIndices b) ci) [1..b]
     where
         b = getBase c
         ci = getIndex c
