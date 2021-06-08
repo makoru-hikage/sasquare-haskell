@@ -192,8 +192,8 @@ isCellInColumn i c = getColumn i == c
 -- Find the cell using a row index and a column index
 findCellByIndices :: Base -> Int -> Int -> Maybe Cell
 findCellByIndices b r c
-    | c <= 0 || r <= 0 = Nothing
-    | otherwise = Just (Cell b (b*r - b + c))
+    | r `elem` [1..b] && c `elem` [1..b] = Just (Cell b (b*r - b + c))
+    | otherwise = Nothing
 
 -- Find the intersection of a row and column
 intersectRowColumn :: Row -> Column -> Maybe Cell
