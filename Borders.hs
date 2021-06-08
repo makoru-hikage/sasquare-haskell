@@ -7,7 +7,7 @@ import BasicParts (
     Row(..),
     Column(..),
     Cell(..),
-    CellSet (getCellsOf),
+    CellSet (..),
     cellIndex,
     cellIndices,
     getRow,
@@ -22,7 +22,31 @@ import BasicParts (
     nthCellOfColumn
     )
 
-data Edge = TopEdge | BottomEdge | LeftEdge | RightEdge
+data Region =
+    TopEdge
+    | BottomEdge
+    | LeftEdge
+    | RightEdge
+    | TopLeftCorner
+    | TopRightCorner
+    | BottomLeftCorner
+    | BottomRightCorner
+    | Middle
+    | Outside
+    deriving (Show)
+
+instance Eq Region where
+    TopEdge == TopEdge = True
+    BottomEdge == BottomEdge = True
+    LeftEdge == LeftEdge = True
+    RightEdge == RightEdge = True
+    TopLeftCorner == TopLeftCorner = True
+    TopRightCorner == TopRightCorner = True
+    BottomLeftCorner == BottomLeftCorner = True
+    BottomRightCorner == BottomRightCorner = True
+    Middle == Middle = True
+    Outside == Outside = True
+    _ == _ = False
 
 -- Borders
 topLeftCorner :: Base -> Cell
@@ -64,4 +88,23 @@ allEdges b = nub (horizontalEdges ++ verticalEdges)
     where
         verticalEdges = concatMap (getCellsOf . ($b)) [leftEdge,rightEdge]
         horizontalEdges = concatMap (getCellsOf . ($b)) [topEdge,bottomEdge]
- 
+
+regionOfCell :: Cell -> Region
+regionOfCell i
+    | not (isCellValid i) = Outside
+    | i == topLeftCorner b = TopLeftCorner
+    | i == topRightCorner b = TopRightCorner
+    | i == bottomLeftCorner b = BottomLeftCorner
+    | i == bottomRightCorner b = BottomRightCorner
+    | isCellIn i (topEdge b) = TopEdge
+    | isCellIn i (bottomEdge b) = BottomEdge
+    | isCellIn i (leftEdge b) = LeftEdge
+    | isCellIn i (rightEdge b) = RightEdge
+    | otherwise = Middle
+    where b = getBase i
+
+isInside :: Cell -> Bool
+isInside i = regionOfCell i /= Outside
+
+isInBorder :: Cell -> Bool
+isInBorder i = isInside i && regionOfCell i /= Middle
