@@ -1,6 +1,6 @@
 import Data.Ratio ( (%) )
 import Data.List ( nub )
-import Data.Maybe ( mapMaybe, isJust, fromJust, catMaybes )
+import Data.Maybe ( mapMaybe )
 
 import BasicParts (
     Base,
