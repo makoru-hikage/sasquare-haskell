@@ -177,7 +177,7 @@ cellIndex (Just (Cell _ i)) = i
 cellIndex Nothing = 0
 
 cellIndices :: [Maybe Cell] -> [Int]
-cellIndices = map cellIndex
+cellIndices = filter (> 0) . map cellIndex
 
 -- Cell inclusion predicates
 isCellInRow :: Cell -> Row -> Bool
