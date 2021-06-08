@@ -19,9 +19,7 @@ module BasicParts(
     findCellByIndices,
     intersectRowColumn,
     nthCellOfRow,
-    nthCellOfColumn,
-    rowCells,
-    columnCells
+    nthCellOfColumn
 ) where
 
 import Data.Ratio ( (%) )
@@ -111,15 +109,24 @@ instance Ord Cell where
 -- Cell Groups
 class CellSet a where
     isCellIn :: Cell -> a -> Bool
-    cellIndicesFromSet :: a -> [Int] 
+    cellIndicesFromSet :: a -> [Int]
+    getCellsOf :: a -> [Cell]
 
 instance CellSet Row where
     isCellIn = isCellInRow
-    cellIndicesFromSet = cellIndices . rowCells
+    cellIndicesFromSet = cellIndices . getCellsOf
+    getCellsOf r = mapMaybe (findCellByIndices b ri) [1..b]
+        where
+            b = getBase r
+            ri = getIndex r
 
 instance CellSet Column where
     isCellIn = isCellInColumn
-    cellIndicesFromSet = cellIndices . columnCells
+    cellIndicesFromSet = cellIndices . getCellsOf
+    getCellsOf c = mapMaybe (flip (findCellByIndices b) ci) [1..b]
+        where
+            b = getBase c
+            ci = getIndex c
 
 -- Parts comparison functions
 areTheRowsSame :: Row -> Row -> Bool
@@ -214,23 +221,11 @@ nthCellOfRow r n
         b = getBase r
         ri = getIndex r
 
-rowCells :: Row -> [Cell]
-rowCells r = mapMaybe (findCellByIndices b ri) [1..b]
-    where
-        b = getBase r
-        ri = getIndex r
-
 -- Column functions
 nthCellOfColumn :: Column -> Index -> Maybe Cell
 nthCellOfColumn c n
     | isColumnValid c = findCellByIndices b n ci
     | otherwise = Nothing
-    where
-        b = getBase c
-        ci = getIndex c
-
-columnCells :: Column -> [Cell]
-columnCells c = mapMaybe (flip (findCellByIndices b) ci) [1..b]
     where
         b = getBase c
         ci = getIndex c

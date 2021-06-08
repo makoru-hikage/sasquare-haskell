@@ -7,20 +7,19 @@ import BasicParts (
     Row(..),
     Column(..),
     Cell(..),
+    CellSet (getCellsOf),
     cellIndex,
     cellIndices,
     getRow,
     getColumn,
     getIndex,
     getBase,
-    rowCells,
     isCellValid,
     isRowValid,
     isColumnValid,
     findCellByIndices,
     nthCellOfRow,
-    nthCellOfColumn,
-    columnCells
+    nthCellOfColumn
     )
 
 -- Find the centermost element in a finite list of an odd length
@@ -147,16 +146,16 @@ bottomRightCorner :: Base -> Cell
 bottomRightCorner b = Cell b (b^2)
 
 topEdge :: Base -> [Cell]
-topEdge b = rowCells $ Row b 1
+topEdge b = getCellsOf $ Row b 1
 
 bottomEdge :: Base -> [Cell]
-bottomEdge b = rowCells $ Row b b
+bottomEdge b = getCellsOf $ Row b b
 
 leftEdge :: Base -> [Cell]
-leftEdge b = columnCells $ Column b 1
+leftEdge b = getCellsOf $ Column b 1
 
 rightEdge :: Base -> [Cell]
-rightEdge b = columnCells $ Column b b
+rightEdge b = getCellsOf $ Column b b
 
 allCorners :: Base -> [Cell]
 allCorners b = map ($b) corners
