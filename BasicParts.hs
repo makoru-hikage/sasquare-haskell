@@ -26,6 +26,7 @@ module BasicParts(
 
 import Data.Ratio ( (%) )
 import Data.Ix ()
+import Data.Maybe ( mapMaybe )
 
 -- A square always has a base
 -- The base is the root of a perfect square
@@ -191,7 +192,7 @@ isCellInColumn i c = getColumn i == c
 -- Find the cell using a row index and a column index
 findCellByIndices :: Base -> Int -> Int -> Maybe Cell
 findCellByIndices b r c
-    | c == 0 || r == 0 = Nothing
+    | c <= 0 || r <= 0 = Nothing
     | otherwise = Just (Cell b (b*r - b + c))
 
 -- Find the intersection of a row and column
