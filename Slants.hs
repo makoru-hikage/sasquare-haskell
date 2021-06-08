@@ -53,11 +53,15 @@ instance Slant AscendingSlant where
 -- CellSet instances
 instance CellSet DescendingSlant where
     isCellIn i x = areTheSlantsSame (getDescendingSlant i) x
-    cellIndicesFromSet = cellIndices . descendingSlantCells
+    cellIndicesFromSet = cellIndices . getCellsOf
+    getCellsOf x = mapMaybe (nthCellOfDescSlant x) [1..n]
+        where n = slantCardinality x
 
 instance CellSet AscendingSlant where
     isCellIn i x = areTheSlantsSame (getAscendingSlant i) x
-    cellIndicesFromSet = cellIndices . ascendingSlantCells
+    cellIndicesFromSet = cellIndices . getCellsOf
+    getCellsOf x = mapMaybe (nthCellOfAscSlant x) [1..n]
+        where n = slantCardinality x
 
 -- Counts the total number of slants in a square per kind
 countSlantsInSquare :: Base -> Int
@@ -177,15 +181,3 @@ nthCellOfAscSlant a n
     where
         b = getBase a
         x = slantIndex a
-
--- Cell listing functions for the slants
-
--- List all the cells of a descending slant
-descendingSlantCells :: DescendingSlant -> [Cell]
-descendingSlantCells a = mapMaybe (nthCellOfDescSlant a) [1..n]
-    where n = slantCardinality a
-
--- List all the cells of an ascending slant
-ascendingSlantCells :: AscendingSlant -> [Cell]
-ascendingSlantCells a = mapMaybe (nthCellOfAscSlant a) [1..n]
-    where n = slantCardinality a
