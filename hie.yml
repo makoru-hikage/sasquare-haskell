@@ -2,3 +2,5 @@ cradle:
   stack:
     - path: "test"
       component: "sasquare-haskell:test:sasquare-test"
+    - path: "lib"
+      component: "sasquare-haskell:lib:sasquare-lib"
