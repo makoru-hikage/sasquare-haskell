@@ -33,8 +33,6 @@ import BasicParts (
     nthCellOfColumn
     )
 
-data Edge = TopEdge | BottomEdge | LeftEdge | RightEdge
-
 -- Find the centermost element in a finite list of an odd length
 oddCenterIndex :: Int -> Int
 oddCenterIndex x = ceiling (x % 2)
