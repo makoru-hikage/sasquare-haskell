@@ -18,7 +18,7 @@ build-type:          Simple
 extra-source-files:  CHANGELOG.md, README.md
 
 library sasquare-lib
-  exposed-modules:     BasicParts, Slants, Symmetry, Borders
+  exposed-modules:     BasicParts, Slants, Symmetry, Borders, Display
   build-depends:       base >=4.14 && <4.15
   hs-source-dirs:      lib
   default-language:    Haskell2010
