@@ -1,3 +1,18 @@
+module Borders (
+    Region(..),
+    topLeftCorner,
+    topRightCorner,
+    bottomLeftCorner,
+    bottomRightCorner,
+    topEdge,
+    bottomEdge,
+    leftEdge,
+    rightEdge,
+    allCorners,
+    allEdges,
+    regionOfCell
+) where
+
 import Data.Ratio ( (%) )
 import Data.List ( nub )
 import Data.Maybe ( mapMaybe )

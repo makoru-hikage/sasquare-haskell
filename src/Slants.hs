@@ -1,3 +1,35 @@
+module Slants (
+    Slant(..),
+    AscendingSlant(..),
+    DescendingSlant(..),
+    countSlantsInSquare,
+    intersectionSum,
+    intersectionDiff,
+    rIntersectionDiff,
+    getDescendingSlant,
+    getAscendingSlant,
+    diagonalFunc,
+    antidiagonalFunc,
+    nthCellOfDiagonal,
+    nthCellOfAntidiagonal,
+    nthCellOfDescSlant,
+    nthCellOfAscSlant,
+    diagonalCells,
+    antidiagonalCells,
+    xOfTheSquare,
+    isDiagonal,
+    isSubdiagonal,
+    isSuperdiagonal,
+    isOffDiagonal,
+    isAntiDiagonal,
+    isAntiSubdiagonal,
+    isAntiSuperdiagonal,
+    isAntiOffDiagonal,
+    areTheSlantsSame,
+    functionU,
+    functionW
+    ) where
+
 import Data.Ratio ( (%) )
 import Data.List ( nub )
 import Data.Maybe ( mapMaybe )

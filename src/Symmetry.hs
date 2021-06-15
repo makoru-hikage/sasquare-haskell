@@ -1,3 +1,15 @@
+module Symmetry (
+    oddCenterIndex,
+    evenCenterIndices,
+    rowCenter,
+    columnCenter,
+    squareCenter,
+    horizontalOpposite,
+    verticalOpposite,
+    descendingOpposite,
+    ascendingOpposite
+    ) where
+
 import Data.Ratio ( (%) )
 import Data.List ( nub )
 import Data.Maybe ( mapMaybe, catMaybes )
