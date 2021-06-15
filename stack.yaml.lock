@@ -3,7 +3,12 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-snapshots: []
+snapshots:
+- original: lts-17.15
+  completed:
+    sha256: 72e87841a0ab5b72f6f018e8ee692fd972b7bb32a944990f028e10d6eb528e63
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/15.yaml
+    size: 567679
 packages:
 - original:
     hackage: HUnit-1.6.2.0
