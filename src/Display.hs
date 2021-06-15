@@ -1,3 +1,12 @@
+module Display (
+    groupIntoN,
+    splitSquareList,
+    createSquareIntList,
+    padStrByBase,
+    retainNumInStrIf,
+    presentSquare
+) where
+
 import BasicParts
 import Data.List
 
