@@ -1,0 +1,4 @@
+cradle:
+  stack:
+    - path: "test"
+      component: "sasquare-haskell:test:sasquare-test"
